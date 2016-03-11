@@ -10,10 +10,14 @@ import UIKit
 
 class ListTableViewController: UITableViewController {
     
+    @IBOutlet var myTableView: UITableView!
+    let randomArray = EntityController.sharedController.shuffleArray(EntityController.sharedController.peopleArray)
     var people: [Person] = []
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        //tableView.reloadData()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -23,8 +27,11 @@ class ListTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
+//    override func viewDidAppear(animated: Bool) {
+//        tableView.reloadData()
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -40,28 +47,31 @@ class ListTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return EntityController.sharedController.peopleArray.count
+        return randomArray.count
+            //EntityController.sharedController.peopleArray.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("entityCell", forIndexPath: indexPath)
         
-        let item = EntityController.sharedController.peopleArray[indexPath.row]
+        let item = randomArray[indexPath.row]
+        //EntityController.sharedController.peopleArray[indexPath.row]
         
         cell.textLabel?.text = item.firstName! + " " + item.lastName!
-        //cell.updateWith(person)
+        
         return cell
     }
     
     
     @IBAction func randomButtonTapped(sender: AnyObject) {
-        let random1 = arc4random_uniform(UInt32(EntityController.sharedController.peopleArray.count))
-        print(random1)
-        let random2 = arc4random_uniform(UInt32(EntityController.sharedController.peopleArray.count))
-        print(random2)
+        
+        self.tableView.reloadData()
         
     }
+    
+    
+    
     
 
     /*
@@ -120,3 +130,7 @@ class ListTableViewController: UITableViewController {
     
 
 }
+
+
+
+

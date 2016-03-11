@@ -11,6 +11,8 @@ import CoreData
 
 class EntityController {
     
+    
+    
     private let entityKey = "entityKey"
     
     static let sharedController = EntityController()
@@ -67,4 +69,13 @@ class EntityController {
         return entityPath
     }
     
+    
+    func shuffleArray<Person>(var array: [Person]) -> [Person] {
+        for index in (0..<array.count) {
+            let randomIndex = Int(arc4random_uniform(UInt32(index)))
+            (array[index], array[randomIndex]) = (array[randomIndex], array[index])
+        }
+        
+        return array
+    }
 }
