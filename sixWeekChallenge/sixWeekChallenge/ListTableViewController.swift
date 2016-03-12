@@ -70,7 +70,7 @@ class ListTableViewController: UITableViewController {
         if pair % 2 == 0 {
             cell.backgroundColor = UIColor.cyanColor()
         } else {
-            cell.backgroundColor = UIColor.greenColor()
+            cell.backgroundColor = UIColor.brownColor()
         }
         
         return cell

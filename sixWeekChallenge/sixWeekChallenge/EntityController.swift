@@ -29,14 +29,6 @@ class EntityController {
     }
     
     
-    var pairedPeople: [Person] {
-        return peopleArray.filter({$0.isPaired!.boolValue})
-    }
-    
-    var unPairedPeople: [Person] {
-        return peopleArray.filter({!$0.isPaired!.boolValue})
-    }
-    
     func addPerson(person: Person) {
         
         self.saveToPersistentStorage()
