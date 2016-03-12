@@ -62,7 +62,8 @@ class PairedListTableViewController: UITableViewController {
         updatePerson()
         EntityController.sharedController.saveToPersistentStorage()
         
-        navigationController?.popToRootViewControllerAnimated(true)
+        //navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.popViewControllerAnimated(true)
     }
 
 

@@ -6,32 +6,39 @@
 //  Copyright © 2016 Cameron Moss. All rights reserved.
 //
 
+//
+
 import UIKit
 
 class ListTableViewController: UITableViewController {
     
+    
     @IBOutlet var myTableView: UITableView!
-    let randomArray = EntityController.sharedController.shuffleArray(EntityController.sharedController.peopleArray)
-    var people: [Person] = []
+    var randomArray = EntityController.sharedController.shuffleArray(EntityController.sharedController.peopleArray)
+    //var people: [Person] = []
+    var people: [Person] {
+        return EntityController.sharedController.peopleArray
+    }
+    var random: Bool = false
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //tableView.reloadData()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.tableView.reloadData()
+        myTableView.reloadData()
+        print(randomArray.count)
+        random = false
     }
-//    override func viewDidAppear(animated: Bool) {
-//        tableView.reloadData()
-//    }
+   
+    override func viewDidAppear(animated: Bool) {
+        //super.viewDidAppear(animated)
+        //myTableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -47,26 +54,35 @@ class ListTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return randomArray.count
-            //EntityController.sharedController.peopleArray.count
+        return random ? randomArray.count:people.count
+        //EntityController.sharedController.peopleArray.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("entityCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("entityCell", forIndexPath: indexPath) 
         
-        let item = randomArray[indexPath.row]
+        let items = random ? randomArray[indexPath.row]:people[indexPath.row]
         //EntityController.sharedController.peopleArray[indexPath.row]
         
-        cell.textLabel?.text = item.firstName! + " " + item.lastName!
+        cell.textLabel?.text = items.firstName! + " " + items.lastName!
+        let pair = indexPath.row/2
+        if pair % 2 == 0 {
+            cell.backgroundColor = UIColor.cyanColor()
+        } else {
+            cell.backgroundColor = UIColor.greenColor()
+        }
         
         return cell
     }
     
     
     @IBAction func randomButtonTapped(sender: AnyObject) {
+        //viewDidAppear(true)
         
-        self.tableView.reloadData()
+        randomArray = EntityController.sharedController.shuffleArray(people)
+        random = true
+        myTableView.reloadData()
         
     }
     
@@ -82,17 +98,19 @@ class ListTableViewController: UITableViewController {
     }
     */
 
-    
+    /*
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
-            let person = EntityController.sharedController.peopleArray[indexPath.row]
+            let person = randomArray[indexPath.row]
             EntityController.sharedController.removePerson(person)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             EntityController.sharedController.saveToPersistentStorage()
+            
         }
     }
+*/
     
 
     /*
@@ -121,7 +139,7 @@ class ListTableViewController: UITableViewController {
                 _ = pairedListTableViewController.view
                 
                 if let selectedRow = tableView.indexPathForSelectedRow?.row {
-                    pairedListTableViewController.updateWith(EntityController.sharedController.peopleArray[selectedRow])
+                    pairedListTableViewController.updateWith(people[selectedRow])
                 }
             }
         }

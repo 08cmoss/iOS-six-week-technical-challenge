@@ -20,4 +20,4 @@ Take as much time as needed to complete the challenge. Add a note at the bottom 
 
 Example:
 
-```Been working on for 3 hours 25 minutes, not complete yet.```
+```Completed in 5 hours.```
